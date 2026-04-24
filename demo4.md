@@ -118,9 +118,62 @@ limits.cpu              200m  2
 limits.memory           256Mi 4Gi
 ```
 
+
 ---
 
-## 7. Adjust Resource Quotas as Needed
+## 7. Test Resource Quota with a Sample Deployment
+
+To verify that your ResourceQuota is working as expected, deploy a sample workload in the namespace and observe quota enforcement.
+
+**Sample Deployment YAML:**
+
+Save as `app.yaml`:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy1
+  namespace: dev
+spec:
+  replicas: 3
+  
+  selector:
+    matchLabels:
+      app: web1
+  template:
+    metadata:
+      labels:
+        app: web1
+    spec:
+      containers:
+      - name: web
+        image: mahendrshinde/myweb:1
+        resources:
+          limits:
+            cpu: 10m
+            memory: 16Mi
+        ports:
+        - containerPort: 80
+```
+
+**Steps:**
+1. Apply the deployment in the `dev` namespace:
+   ```sh
+   kubectl apply -f app.yaml
+   ```
+2. Try increasing the replicas to exceed the quota (e.g., set `replicas: 5`).
+3. Observe the error message from Kubernetes, indicating the quota has been exceeded.
+4. Check quota usage:
+   ```sh
+   kubectl describe quota -n dev
+   ```
+
+**Expected Result:**
+Kubernetes will prevent the creation of pods beyond the quota, demonstrating that the ResourceQuota is enforced.
+
+---
+
+## 8. Adjust Resource Quotas as Needed
 
 Monitor usage regularly. If a team needs more resources, update the quota YAML and re-apply:
 ```sh
