@@ -15,6 +15,8 @@ Before you begin, ensure you have the following tools installed:
 **Check Azure CLI installation:**
 ```sh
 az version
+# To get Tenant ID and Subscription id
+az account show
 ```
 
 **Check Terraform installation:**
