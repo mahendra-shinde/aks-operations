@@ -90,8 +90,8 @@ Navigate to your project folder and run the following commands:
 ```sh
 cd iac-demo
 terraform init           # Initializes the working directory and downloads provider plugins
-terraform plan -out=tfplan1   # Creates an execution plan and saves it to tfplan1
-terraform apply tfplan1  # Applies the planned changes to Azure
+terraform plan 
+terraform apply 
 ```
 
 ---
@@ -106,9 +106,30 @@ az group show --name aks-demo-rg
 
 You should see details of the new resource group.
 
+
+## 6. Lets replace resource group with another one (but same name) and different location.
+
+```sh
+az group delete -n aks-demo-rg
+az group create -n aks-demo-rg -l westus2
+```
+
+## 7. Lets try terraform plan command to detect the `drift` in environment !
+
+```sh
+terraform plan
+```
+
+## 8. Now, to correct the `drift`, use terraform apply command and check resource group once again
+
+```sh
+terraform apply -auto-approve
+az group show -n aks-demo-rg
+terraform plan ## Shows `no-change`
+```
 ---
 
-## 6. Best Practices and Next Steps
+##  Best Practices and Next Steps
 
 - Always use variables for configurable values.
 - Store sensitive values (like client secrets) securely, not in plain text.
@@ -118,7 +139,3 @@ You should see details of the new resource group.
 	```sh
 	terraform destroy
 	```
-
----
-
-**Congratulations!** You have successfully deployed Azure resources using Terraform. Continue to expand your configuration to deploy more complex resources, such as AKS clusters, virtual networks, and more.
