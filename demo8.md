@@ -23,18 +23,19 @@ Terraform uses a state file to keep track of resources it manages. This file is 
 
 ```sh
 # Variables
-RESOURCE_GROUP="rg-aks-demo"
-STORAGE_ACCOUNT="tfstateaksdemo$RANDOM"
-CONTAINER_NAME="tfstate"
+$RESOURCE_GROUP="rg-aks-demo"
+# Replace with Unique name
+$STORAGE_ACCOUNT="tfstateaksdemo575765"
+$CONTAINER_NAME="tfstate"
 
 # Create resource group (if not exists)
 az group create --name $RESOURCE_GROUP --location eastus
 
 # Create storage account
-az storage account create --name $STORAGE_ACCOUNT --resource-group RESOURCE_GROUP --sku Standard_LRS
+az storage account create --name $STORAGE_ACCOUNT --resource-group $RESOURCE_GROUP --sku Standard_LRS
 
 # Get storage account key
-ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --account-name $STORAGE_ACCOUNT --query '[0].value' -o tsv)
+$ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --account-name $STORAGE_ACCOUNT --query '[0].value' -o tsv)
 
 # Create blob container
 az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT --account-key $ACCOUNT_KEY
