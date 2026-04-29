@@ -8,17 +8,17 @@ variable "location" {
 variable "resource_group_name" {
 	description = "Name of the resource group for AKS."
 	type        = string
-	default     = "rg-aks-demo"
+	default     = "aks-rg"
 }
 
 variable "aks_cluster_name" {
 	description = "Name of the AKS cluster."
 	type        = string
-	default     = "aks-demo-cluster"
+	default     = "aks-rg-cluster"
 }
 
 variable "dns_prefix" {
 	description = "DNS prefix for the AKS cluster."
 	type        = string
-	default     = "aksdemocluster"
+	default     = "aks-rg-cluster"
 }

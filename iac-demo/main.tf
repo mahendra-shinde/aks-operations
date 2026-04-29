@@ -1,7 +1,7 @@
 terraform {
   backend "azurerm" {
     resource_group_name  = "rg-aks-demo"
-    storage_account_name = "<your_storage_account>"
+    storage_account_name = "tfstateaksdemo575765"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
@@ -44,8 +44,4 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 output "resource_group_name" {
 	value = azurerm_resource_group.aks.name
-}
-
-output "api_server_url" {
-	value = azurerm_kubernetes_cluster.aks.kube_config[0].host
 }
