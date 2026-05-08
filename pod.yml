@@ -1,0 +1,27 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: kvpod1
+spec:
+  containers:
+    - name: web
+      image: nginx:alpine            
+      volumeMounts:
+      - name: vol1
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 250m
+          memory: 256Mi
+  volumes:
+    - name: vol1
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+        # Must match the name of the SecretProviderClass object
+          secretProviderClass: "keyvault-csi"
