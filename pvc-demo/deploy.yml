@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+spec:
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      volumes:
+      - name: vol1
+        persistentVolumeClaim:
+          claimName: claim1
+      containers:
+      - name: web
+        image: nginx:alpine
+        volumeMounts:
+        - name: vol1
+          mountPath: /mnt/data
+        resources:
+          limits:
+            memory: "32Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 80
