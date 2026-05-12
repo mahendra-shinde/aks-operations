@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: web
-  serviceName: "web"
+  serviceName: "web"  # prefix for the pod
   replicas: 3
   template:
     metadata:
@@ -24,3 +24,18 @@ spec:
       volumes:
       - name: www
         emptyDir: {}  ## Local Volume
+---
+# Headless Service for StatefulSet
+apiVersion: v1
+kind: Service
+Metadata:
+  name: web
+spec:
+  selector:
+    app: web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+  clusterIP: None
