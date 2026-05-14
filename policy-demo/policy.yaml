@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: demo-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: pod2
+  policyTypes:
+  - Ingress 
+  - Egress
+  # Allow INCOMING REQUEST from POD1 to POD2 on port 80
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: pod1
+    ports:
+    - port: 80
+      protocol: TCP
+    - port: 443
+      protocol: TCP
+  # NO EGRESS ALLOWED FROM POD2 to POD1
